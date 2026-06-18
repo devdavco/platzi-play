@@ -1,19 +1,21 @@
 package com.platzi.play;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HelloController {
+    private final String plataform;
     private final PlatziPlayAiService platziPlayAiService;
-
-    public HelloController(PlatziPlayAiService platziPlayAiService) {
+    public HelloController(@Value("${spring.application.name}") String plataform, PlatziPlayAiService platziPlayAiService) {
+        this.plataform = plataform;
         this.platziPlayAiService = platziPlayAiService;
     }
 
     @GetMapping("/")
     public String hello(){
-        return this.platziPlayAiService.generateGreeting();
+        return this.platziPlayAiService.generateGreeting(plataform);
     }
 
 }
